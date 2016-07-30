@@ -45,7 +45,13 @@ function deleteAllFiles(containerName, result, response, cb){
  * @returns {string|XML}
  */
 function formatName(name, folderName){
-    return name.replace(/\\/g,'/').replace(folderName,'').replace('/','');
+    name = name.replace(/\\/g,'/').replace(folderName,'')
+
+    if(name.indexOf('/') === 0){
+        name = name.replace('/','');
+    }
+
+    return name;
 }
 
 /**
