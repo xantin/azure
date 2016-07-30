@@ -1,0 +1,17 @@
+{
+  "name": "azure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "azure_deployment.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "david dutkovsky",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.0.1",
+    "azure-storage": "^1.1.0",
+    "node-dir": "^0.1.15"
+  }
+}
