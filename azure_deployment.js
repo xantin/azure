@@ -1,6 +1,7 @@
 var azure = require('azure-storage');
 var async = require("async");
 var dir = require("node-dir");
+var BlobUtilities = azure.BlobUtilities;
 
 var input = process.argv;
 if(input.length != 4){
@@ -20,6 +21,8 @@ async.waterfall([
   ], function(err, result){
       if(!err){
         uploadAllFilesFromFolder(containerName, pathToUploadedDir);
+      }else{
+          console.error(err);
       }
   }
 );
@@ -31,9 +34,13 @@ async.waterfall([
  * @param cb
  */
 function deleteAllFiles(containerName, result, response, cb){
+  var options = {
+      deleteSnapshots: BlobUtilities.SnapshotDeleteOptions.BLOB_AND_SNAPSHOTS
+  };
+
   async.each(result.entries,
     function(entry, callback) {
-      blobSvc.deleteBlob(containerName, entry.name, callback);
+      blobSvc.deleteBlob(containerName, entry.name, options, callback);
     }, function(err){
       return cb(err);
   });
@@ -69,10 +76,12 @@ function uploadAllFilesFromFolder(containerName, folderName){
             blobSvc.createBlockBlobFromLocalFile(containerName, blobname, filePath, function(error, result, response){
                 if(!error){
                     console.log('File ' + blobname + ' uploaded');
+                }else{
+                    console.error(error);
                 }
             });
         }, function (err){
-
+            //     
         });
     });
 }
